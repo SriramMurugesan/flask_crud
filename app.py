@@ -16,7 +16,7 @@ with app.app_context():
 @app.route('/create' , methods = ['GET','POST'])
 def create():
     if request.method == 'GET':
-        return render_template('createpage.html')
+        return render_template('create.html')
  
     if request.method == 'POST':
 
@@ -91,10 +91,9 @@ def update(id):
         db.session.add(student)
         db.session.commit()
         return redirect('/')
-        return f"Student with id = {id} Does nit exist"
+        return f"Student with id = {id} Does not exist"
  
     return render_template('update.html', student = student)
- 
  
 @app.route('/<int:id>/delete', methods=['GET','POST'])
 def delete(id):
@@ -105,7 +104,6 @@ def delete(id):
             db.session.commit()
             return redirect('/')
         abort(404)
-     #return redirect('/')
     return render_template('delete.html')
  
 app.run(host='localhost', port=5000)
