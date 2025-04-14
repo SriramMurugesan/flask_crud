@@ -45,14 +45,13 @@ def create():
         db.session.commit()
         return redirect('/')
  
- 
-@app.route('/')
+@app.route('/', methods = ['GET'])
 def RetrieveList():
     students = StudentModel.query.all()
-    return render_template('datalist.html',students = students)
+    return render_template('index.html',students = students)
  
- 
-@app.route('/<int:id>')
+
+@app.route('/<int:id>', methods = ['GET','POST'])
 def RetrieveStudent(id):
     students = StudentModel.query.filter_by(id=id).first()
     if students:
@@ -64,24 +63,13 @@ def RetrieveStudent(id):
 def update(id):
     student = StudentModel.query.filter_by(id=id).first()
 
-    #hobbies = student.hobbies.split(' ')
-    # print(hobbies)
+    
     if request.method == 'POST':
         if student:
             db.session.delete(student)
             db.session.commit()
-    #     tv = request.form['tv']    
-    #     if tv is None:
-    #               pass
 
-    #    # print('Form:' + str(request.form))    
-      
-    #     cricket = request.form['cricket']
-    #     movies = request.form['movies']
-    #     hobbies = tv + ' ' +  cricket + ' ' + movies
-    #     print('H' + hobbies)
         hobby = request.form.getlist('hobbies')
-        #hobbies = ','.join(map(str, hobby))
         hobbies =  ",".join(map(str, hobby)) 
         first_name = request.form['first_name']
         last_name = request.form['last_name']
